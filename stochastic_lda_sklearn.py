@@ -80,30 +80,16 @@ def main():
     print(np.std(transform_result, axis=0))
     print(transform_result)
     hist, bin_edges = np.histogram(transform_result[:, 0], bins=10)
-    print(bin_edges)
     plt.bar(bin_edges[:-1], hist, width=1)
-    plt.show()
-    print(transform_result[:, 0])
-    testdoc = getfiles("docs/hogehoge.txt")
-    tf_vectorizer = CountVectorizer(min_df=1, max_df=1.0,
-                                    strip_accents='ascii',
-                                    stop_words=stopwords,
-                                    analyzer='word')
-    test_tf = tf_vectorizer.fit_transform([testdoc])
+    # plt.show()
+    testdoc = getfiles("hogehoge.txt")
+    test_tf = tf_vectorizer.transform([testdoc])
     tf_feature_names = tf_vectorizer.get_feature_names()
     n_test_samples, n_test_features = test_tf.shape
     print("testfeturenum:" + str(n_test_features) +
           " tf_featre_names:" + str(len(tf_feature_names)))
-    if n_test_features < len(trained_feature_names):
-        for i in range(len(trained_feature_names) - n_test_features):
-            testdoc += " a" + str(i)
-    tf_vectorizer = CountVectorizer(min_df=1, max_df=1.0,
-                                    strip_accents='ascii',
-                                    stop_words=stopwords,
-                                    analyzer='word')
-    test_tf = tf_vectorizer.fit_transform([testdoc])
-    test_tf = lda.transform(test_tf)
-    print(test_tf)
+    result = lda.transform(test_tf)
+    print(result)
     tf_feature_names = tf_vectorizer.get_feature_names()
     print_top_words(lda, tf_feature_names, n_top_words)
 
